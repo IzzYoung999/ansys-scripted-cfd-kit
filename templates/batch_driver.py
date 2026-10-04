@@ -9,7 +9,7 @@ import os, subprocess, sys, time
 
 BASE = r"D:\work"
 SWEEP = os.path.join(BASE, "runs", "sweep")
-PY    = r"D:\miniconda3\envs\ansys\python.exe"      # 绝对路径！WindowsApps 有假 python
+PY    = r"D:\miniconda3\envs\ansys\python.exe"      # 绝对路径！WindowsApps 有WindowsApps 占位解释器
 SOLVE = os.path.join(os.path.dirname(__file__), "mesh_solve_wt.py")
 
 CONFIGS = ["cfg_a", "cfg_b", "cfg_c"]               # 与 dsco 文件名对应

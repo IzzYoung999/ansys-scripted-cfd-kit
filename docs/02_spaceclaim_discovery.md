@@ -36,7 +36,7 @@ bodies = list(part.GetAllBodies())        # 全部实体
 - 实体名来自 STEP 的产品名，含中文/空格/点号很常见。按**子串匹配**定位实体，
   别指望精确名。
 
-## 3. 布尔运算：返回值语义（血泪第一坑）
+## 3. 布尔运算：返回值语义（重要语义（一））
 
 ```python
 target.Shape.Unite(tool.Shape)     # 原地并入；返回 None；tool 的 DesignBody 被删除
@@ -46,7 +46,7 @@ body.Shape.Subtract(tool.Shape)    # 原地削；返回 None！削完的体就�
 **两个方法都返回 None。** `Subtract` 的结果就是被削的那个体本身——不要去接
 "返回的新体"，那会拿到 None 然后把原件删了（实战中丢过一片零件）。
 
-## 4. 脱管副本 vs 设计体（血泪第二坑）
+## 4. 脱管副本 vs 设计体（重要语义（二））
 
 跨体布尔时，两个体必须**同属一类**：
 
@@ -81,7 +81,7 @@ ValueError: Some modeler bodies belong to design bodies and some do not.
 
 **找不到 API 类名时的正规姿势**：用 `clr.GetClrType(某类型)` 反射方法签名拿
 参数的 FullName——几秒钟。**不要**用 `AppDomain.CurrentDomain.GetAssemblies()`
-+ `GetTypes()` 全库扫——在 IronPython 里会挂死几分钟到永远。
++ `GetTypes()` 全库扫——在 IronPython 里会挂起无响应几分钟到永远。
 
 ## 6. 导出
 
@@ -92,8 +92,8 @@ eo.ExportNames = True                      # 保留实体名 → 下游 zone 名
 Window.ActiveWindow.Export(WindowExportFormat.DISCO, out_path, eo)
 ```
 
-- `doc.SaveAs("xxx.step")` 在隐藏模式会**挂死**（对话框），永远走 Export。
-- Watertight 工作流**只认 `.dsco`**，FMD/ANF 都不收（别信老教程）。
+- `doc.SaveAs("xxx.step")` 在隐藏模式会**挂起无响应**（对话框），永远走 Export。
+- Watertight 工作流**只认 `.dsco`**，FMD/ANF 都不收（以实测为准）。
 
 ## 7. 检查清单（每个几何脚本跑完必看）
 
@@ -102,9 +102,9 @@ Window.ActiveWindow.Export(WindowExportFormat.DISCO, out_path, eo)
 - [ ] 每个导出文件大小在同一量级（突然小一半=丢东西）
 - [ ] 日志里无 Traceback
 
-## 8. 已知死路（别撞）
+## 8. 已确认不可行的做法
 
-- `AppDomain` 全程序集反射 → 挂死。
-- 在隐藏模式里弹任何模态对话框的操作（SaveAs、某些修复工具）→ 挂死。
+- `AppDomain` 全程序集反射 → 挂起无响应。
+- 在隐藏模式里弹任何模态对话框的操作（SaveAs、某些修复工具）→ 挂起无响应。
 - 让 Discovery 在隐藏模式打开带特征的 .sldprt 装配 → 依赖源文件在不在磁盘，
   不可靠；用 STEP 中转。

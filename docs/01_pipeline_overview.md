@@ -22,7 +22,7 @@
 ### ② Watertight 网格（PyFluent, mode="meshing"）
 - 固定配方：表面网格（曲率/邻近加密）→ Describe Geometry(fluid+solid) → Share Topology
   → 边界层棱柱 → poly-hexcore 体网格。
-- 每一步的警告都要看：`stair-stepping`、`minimum orthogonal quality` 是后续发散的预告片。
+- 每一步的警告都要看：`stair-stepping`、`minimum orthogonal quality` 是后续发散的前期征兆。
 - 关键约束见 [04](04_watertight_meshing.md)。
 
 ### ③ 求解（PyFluent, switch_to_solver）

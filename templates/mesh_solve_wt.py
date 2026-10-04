@@ -41,7 +41,7 @@ def exec_task(task, args, label, hard=True):
         task.Execute()
         w = task.get_state().get("Warnings")
         if w:
-            log(f"{label} 警告: {str(w)[:300]}")     # 警告=发散预告片，必须看（docs/04 §2）
+            log(f"{label} 警告: {str(w)[:300]}")     # 警告=发散前期征兆，必须看（docs/04 §2）
         log(f"{label} 完成")
         return True
     except Exception as e:
@@ -66,12 +66,12 @@ exec_task(wf.TaskObject["Describe Geometry"], {
 exec_task(wf.TaskObject["Update Boundaries"], {}, "更新边界", hard=True)
 exec_task(wf.TaskObject["Update Regions"], {}, "更新区域", hard=True)
 
-# ---------- 边界层：任务舞蹈 + 保守参数（docs/04 §4） ----------
+# ---------- 边界层：子任务创建流程 + 保守参数（docs/04 §4） ----------
 bl = wf.TaskObject["Add Boundary Layers"]
 try:
     bl.AddChildToTask(); bl.InsertCompoundChildTask()
 except Exception as e:
-    log(f"BL 舞蹈失败: {repr(e)[:200]}")
+    log(f"BL 子任务创建流程失败: {repr(e)[:200]}")
 KNOWN = {"Import Geometry", "Add Local Sizing", "Generate the Surface Mesh",
          "Describe Geometry", "Enclose Fluid Regions (Capping)", "Update Boundaries",
          "Create Regions", "Update Regions", "Add Boundary Layers",
@@ -97,7 +97,7 @@ except Exception:
 bc = solver.setup.boundary_conditions
 allwalls = list(bc.get_state().get("wall", {}).keys())
 
-# ---------- 远场切分 + 边界类型（只切远场！整皮切分会让 RPC 永久挂死 docs/04 §6） ----------
+# ---------- 远场切分 + 边界类型（只切远场！整皮切分会让 RPC 永久挂起无响应 docs/04 §6） ----------
 from ansys.fluent.core.fields.field_data_interfaces import ScalarFieldDataRequest
 fd = solver.fields.field_data
 def centroid(z):

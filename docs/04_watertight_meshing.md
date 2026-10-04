@@ -1,6 +1,6 @@
 # 04 Watertight 网格自动化
 
-PyFluent 驱动 Watertight Geometry 工作流的核心是"任务舞蹈"和键名纪律。
+PyFluent 驱动 Watertight Geometry 工作流的核心是"子任务创建流程"和键名纪律。
 本文按流程顺序给配方，坑单独标红。
 
 ## 1. 会话与工作流
@@ -31,8 +31,8 @@ def exec_task(task, args, label, hard=True):
 ```
 
 **警告不是废话**：`stair-stepping occurred at N locations` 和
-`minimum Orthogonal Quality of: X` 是后续求解发散的预告片。
-OQ=0.00 的网格跑得动也别信——它是定时炸弹。
+`minimum Orthogonal Quality of: X` 是后续求解发散的前期征兆。
+OQ=0.00 的网格跑得动也别信——它是严重隐患。
 
 ## 3. 键名纪律
 
@@ -41,7 +41,7 @@ OQ=0.00 的网格跑得动也别信——它是定时炸弹。
 - 非法键**静默丢弃**，只在 transcript 里留一行 "Illegitimate input"。
   所以设完关键参数后 `task.get_state()` 打印回读确认。
 
-## 4. 边界层（棱柱层）的任务舞蹈
+## 4. 边界层（棱柱层）的子任务创建流程
 
 加边界层不能直接设参数，要先"舞"出子任务：
 
@@ -88,7 +88,7 @@ m.expert.first_to_second_order_blending = 1.0   # 切回二阶收敛
 - **正确分类的固体区不要删**（比如焊成一体后的"本体"固体区）：蒙皮 wall 天然
   存在，删除反而引发 zone 记账的随机行为。
 - 远场面切分（sep-face-zone-angle）只对远场做：对整张蒙皮 wall 切分会让
-  pyfluent RPC **永久挂死**（transcript 显示完成但 Python 永不返回）。
+  pyfluent RPC **永久挂起无响应**（transcript 显示完成但 Python 永不返回）。
 - TUI 命令传 zone 名带冒号/特殊字符会报 `wta to symbol->string`——
   **传 zone ID（整数）**。
 

@@ -1,8 +1,8 @@
-# 05 求解侧天坑
+# 05 求解侧常见陷阱
 
-本文记录求解与报告环节的坑。每一条都真实咬过人。
+本文记录求解与报告环节的坑。每一条都真实在实际项目中出现过。
 
-## 1. 气动力在 `-shadow` 面上（最贵的教训）
+## 1. 气动力在 `-shadow` 面上（关键问题）
 
 两 sided wall（一侧固体一侧流体）会生成**两个重叠的面 zone**：主面 +
 `-shadow` 影子面，物理上是同一张皮。规则：
@@ -41,7 +41,7 @@
 
 ## 4. 发散的识别与处置
 
-识别（三联征）：
+识别（典型特征组合）：
 - 力爆炸：0.3 N 量级 → 5 N，且侧力/滚转变号暴涨；
 - transcript：`Reversed flow on XXXX faces (100.0% area) of pressure-outlet`、
   `turbulent viscosity limited ... in N cells`（N 接近总单元数）；

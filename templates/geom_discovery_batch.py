@@ -87,7 +87,7 @@ for name, ops in CONFIGS:
         if len(allb) != 2:
             w("  !! 实体数 %d != 2，不导出" % len(allb))
             continue
-        # ④ 导出 dsco（WT 只认 dsco；SaveAs 会挂死，永远用 Export，docs/02 §6）
+        # ④ 导出 dsco（WT 只认 dsco；SaveAs 会挂起无响应，永远用 Export，docs/02 §6）
         eo = ExportOptions.Create()
         eo.CleanUpBodies = False
         eo.ExportNames = True                           # 保留实体名 → 下游 zone 名可读
